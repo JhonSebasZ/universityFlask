@@ -1,0 +1,111 @@
+{% extends 'template.html' %}
+
+{% block style %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/course.css')}}">
+{% endblock %}
+
+{% block title %} Courses {% endblock %}
+
+{% block contents %}
+
+{% from 'macro.html' import render_field %}
+
+{% if model.error %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <div>{{model.error}}</div>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+
+{% if model.succes %}
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <div>{{model.succes}}</div>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+
+<div class="row">
+    <div class="col">
+        <table class="table table-primary table-striped text-center">
+            <thead class="aling-title">
+                <tr>
+                    <th colspan="5" class="text-aling">List of Courses</th>
+                </tr>
+                <tr>
+                    <th>Name</th>
+                    <th>Credits</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for course in model.courses %}
+                <tr>
+                    <td>{{course.1}}</td>
+                    <td>{{course.2}}</td>
+                    <td>
+                        <a href="/admin/courses/delete/{{course.0}}" class="text-danger">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-trash3" viewBox="0 0 16 16">
+                                <path
+                                    d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
+                            </svg>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="/admin/courses/get/{{course.0}}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                                <path
+                                    d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
+                            </svg>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% if model.course %}
+    <div class="col">
+        <div class="text-white registration">
+            <h3>Update Course</h3>
+        <form action="/admin/course/update/{{model.course.0}}" method="post">
+            <div class="mb-3">
+                {{ render_field(form.name, class='form-control', value=model.course.1) }}
+            </div>
+            <div class="mb-3">
+                {{ render_field(form.credits, class='form-control', value=model.course.2) }}
+            </div>
+            <div class="row">
+                <div class="aling-button col">
+                    <a href="/admin/courses"><button type="button" class="btn btn-success">Cancel</button></a>
+                </div>
+                <div class="aling-button col">
+                    <button type="submit" class="btn btn-success">Update Course</button>
+                </div>
+            </div>
+        </form>
+        </div>
+    </div>
+    {% else %}
+    <div class="col">
+        <div class="text-white registration">
+            <h3>Add New Course</h3>
+            <form action="/admin/course/new" method="post">
+                <div class="mb-3">
+                    {{ render_field(form.name, class='form-control') }}
+                </div>
+                <div class="mb-3">
+                    {{ render_field(form.credits, class='form-control') }}
+                </div>
+                <div class="aling-button">
+                    <button type="submit" class="btn btn-success">Add Course</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}

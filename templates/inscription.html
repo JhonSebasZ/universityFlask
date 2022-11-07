@@ -1,0 +1,88 @@
+{% extends 'template.html' %}
+{% block title %} Inscription {% endblock %}
+
+{% block contents %}
+
+{% from 'macro.html' import render_field %}
+
+<form method="post" action="/inscription/search" class="text-white row">
+    <label for="search" class="form-label col-sm-1">Id</label>
+    <input id="search" class="form-control me-2 col" name="id">
+    <button type="submit" class="btn btn-success col-sm-2">Search</button>
+</form>
+
+{% if model and model.student %}
+<div class="card mt-5 text-white" style="background-color:  #6610f2;">
+    <div class="card-body">
+        <h5 class="card-title">{{ model.student.1 }} {{ model.student.2 }}</h5>
+        <p class="card-text">
+            <b>Id: </b>{{ model.student.0 }}<br />
+            <b>Email: </b>{{ model.student.3 }}<br />
+            <b>Phone: </b>{{ model.student.4 }}<br />
+        </p>
+    </div>
+</div>
+
+{% if model.error %}
+<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+    <div>{{model.error}}</div>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+{% if model.succes %}
+<div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+    <div>{{model.succes}}</div>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+
+<div class="row">
+    <div class="col-6">
+        <table class="table text-white w-100 mt-5">
+            <thead class="text-center">
+                <tr>
+                    <th colspan="3">Courses registered by the student</th>
+                </tr>
+                <tr>
+                    <th>Course</th>
+                    <th>Credits</th>
+                    <th>Option</th>
+                </tr>
+            </thead>
+            {% if model.courses_student %}
+            <tbody class="text-center">
+                {% for course in model.courses_student %}
+                <tr>
+                    <td>{{course.1}}</td>
+                    <td>{{course.2}}</td>
+                    <td><a href="/inscription/delete/{{model.student.0}}/{{course.0}}" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            {% else %}
+            <t>
+                <td colspan="3">You have no registered courses</td>
+            </t>
+            {% endif %}
+        </table>
+    </div>
+
+    <div class="col-5 mt-5 ms-5">
+        <h3 class="text-white text-center">Courses for register</h3>
+        <form action="/inscription/add" method="post" class="row text-white">
+            <input type="hidden" name="id" value="{{model.student.0}}">
+            <select class="select form-control col" name="course">
+                {%for course in model.courses%}
+                <option value="{{course.0}}">{{course.1}} ({{course.2}})</option>
+                {% endfor %}
+            </select>
+            <button class="btn btn-success col-sm-2 ms-2">Register</button>
+        </form>
+        {% endif %}
+    </div>
+
+
+</div>
+
+{% endblock %}
