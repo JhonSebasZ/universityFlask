@@ -10,11 +10,11 @@ course_form = forms.Course_form()
 
 #conection mysql
 try:
-    app.config['MYSQL_HOST'] = 'localhost'
+    app.config['MYSQL_HOST'] = 'containers-us-west-119.railway.app'
     app.config['MYSQL_USER'] = 'root'
-    app.config['MYSQL_PASSWORD'] = ''
-    app.config['MYSQL_DB'] = 'university'
-    app.config['MYSQL_PORT'] = 3306
+    app.config['MYSQL_PASSWORD'] = 'mt9NyKcIZq0V8bzRJgjw'
+    app.config['MYSQL_DB'] = 'railway'
+    app.config['MYSQL_PORT'] = 7757
     mysql = MySQL(app)
     print('successful connection')
 except:
@@ -38,8 +38,9 @@ def students(data = dict()):
         cursor.execute(sql)
         data['students'] = cursor.fetchall()
         cursor.close()
-    except:
-        data['error'] = 'error querying student'
+    # except Exception as ex:
+    #     print(str(ex))
+    #     data['error'] = 'error querying student'
     return render_template('student.html', model = data, form=students_form)
 
 @app.route('/admin/students/new', methods=['POST'])
