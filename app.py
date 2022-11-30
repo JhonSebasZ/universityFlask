@@ -38,8 +38,7 @@ def students(data = dict()):
         cursor.execute(sql)
         data['students'] = cursor.fetchall()
         cursor.close()
-    except Exception as ex:
-        print(str(ex))
+    except:
         data['error'] = 'error querying student'
     return render_template('student.html', model = data, form=students_form)
 
