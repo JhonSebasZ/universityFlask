@@ -321,4 +321,4 @@ def inscription_delete(id, course):
         data['error'] = 'Error delete inscription'
     return search_inscription(id, data)
 
-app.run(debug=True)
+app.run()
