@@ -10,11 +10,11 @@ course_form = forms.Course_form()
 
 #conection mysql
 try:
-    app.config['MYSQL_HOST'] = 'containers-us-west-119.railway.app'
+    app.config['MYSQL_HOST'] = 'containers-us-west-121.railway.app'
     app.config['MYSQL_USER'] = 'root'
-    app.config['MYSQL_PASSWORD'] = 'mt9NyKcIZq0V8bzRJgjw'
+    app.config['MYSQL_PASSWORD'] = '6eujku5IdP5t0SCDdDvO'
     app.config['MYSQL_DB'] = 'railway'
-    app.config['MYSQL_PORT'] = 7757
+    app.config['MYSQL_PORT'] = 6153
     mysql = MySQL(app)
     print('successful connection')
 except:
