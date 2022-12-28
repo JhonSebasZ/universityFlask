@@ -10,7 +10,7 @@ class Student_form(Form):
     email = EmailField('Email')
     phone = IntegerField('Phone')
 
-#=======Form Course======#
+#=======Form Course=======#
 class Course_form(Form):
     name = StringField('Name',
                         [
